@@ -8,5 +8,45 @@
     <h2>ユーザーを募集しています</h2>
     <h2>ID:</h2>
     <p>現在の参加者数:</p>
+    <button onclick="gamestart();">開始する。</button>
+    <div id="msg"></div>
   </body>
 </html>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+  // 1.イベントとコールバックの定義
+  var socketio = io.connect('http://localhost:8080');
+
+  socketio.on("connected", function(name) {});
+  socketio.on("publish", function (data) { addMessage(data.value); });
+  socketio.on("disconnect", function () {});
+
+  // 2.イベントに絡ませる関数の定義
+  function start(name) {
+    socketio.emit("connected", name);
+  }
+  //メッセージ送信
+  function publishMessage() {
+    var textInput = document.getElementById('msg_input');
+    var msg = "[" + myName + "] " + textInput.value;
+    socketio.emit("publish", {value: msg});
+    textInput.value = '';
+  }
+  function gamestart(){
+    socketio.emit('jump_to_start');
+    location.href = "./Game";
+
+  }
+
+  function addMessage (msg) {
+    var domMeg = document.createElement('div');
+    domMeg.innerHTML = new Date().toLocaleTimeString() + ' ' + msg;
+    msgArea.appendChild(domMeg);
+  }
+
+  // 3.開始処理
+  var msgArea = document.getElementById("msg");
+  var myName = Math.floor(Math.random()*100) + "さん";
+  addMessage("貴方は" + myName + "として入室しました");
+  start(myName);
+</script>

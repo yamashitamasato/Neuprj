@@ -5,6 +5,20 @@
     <title>Neu game|wait</title>
   </head>
   <body>
-
+    <p>オーナーが開始するまでしばらくお待ちください<p>
   </body>
 </html>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+  // 1.イベントとコールバックの定義
+  var socketio = io.connect('http://localhost:8080');
+
+  socketio.on("connected", function(name) {});
+  socketio.on("publish", function (data) { addMessage(data.value); });
+  socketio.on("disconnect", function () {});
+
+  socketio.on('jump', function() {
+   // location.replace('/Game');
+   location.href = "/Game";
+  });
+</script>

@@ -2,9 +2,38 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Game</title>
+    <title>Neu game|play</title>
   </head>
   <body>
-    <p>Game</p>
+    <center>
+      <h3 id="cardcount">0</h3>
+
+    <button onClick="cardsubmit(card1);" style="width:30%;height:150px" id="card1" >1</button>
+    <button onClick="cardsubmit(card2);" style="width:30%;height:150px" id="card2">2</button>
+    <button onClick="cardsubmit(card3);" style="width:30%;height:150px" id="card3">3</button>
+    </center>
   </body>
 </html>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+  // 1.イベントとコールバックの定義
+  var socketio = io.connect('http://localhost:8080');
+
+  socketio.on("connected", function(name) {});
+  socketio.on("publish", function (data) { addMessage(data.value); });
+  socketio.on("disconnect", function () {});
+
+  // 2.イベントに絡ませる関数の定義
+  function start(name) {
+    socketio.emit("connected", name);
+  }
+  function cardsubmit(card){
+    //console.log(card.id);
+    document.getElementById('cardcount').innerHTML =Number(document.getElementById('cardcount').innerHTML)+Number(document.getElementById(card.id).textContent);
+  }
+  // 3.開始処理
+  //var msgArea = document.getElementById("msg");
+  //var myName = Math.floor(Math.random()*100000) ;
+  //addMessage("貴方は" + myName + "さんとして入室しました");
+  //start(myName);
+</script>

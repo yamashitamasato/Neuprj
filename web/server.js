@@ -33,9 +33,7 @@ io.sockets.on("connection", function (socket) {
   socket.on("publish", function (data) {
     io.sockets.emit("publish", {value:data.value});
   });
-  socket.on("recpage",function(data){
-    console.log('a');
-  });
+
 
   socket.on("jump_to_start",function(data){
     io.sockets.emit('jump');

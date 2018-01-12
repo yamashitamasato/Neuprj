@@ -6,8 +6,8 @@
   </head>
   <body>
     <h2>ユーザーを募集しています</h2>
-    <h2>ID:</h2>
-    <p>現在の参加者数:</p>
+    <h2 id='userID'>ID:</h2>
+    <p id="usercount">現在の参加者数:</p>
     <button onclick="gamestart();">開始する。</button>
     <div id="msg"></div>
   </body>
@@ -20,7 +20,7 @@
   socketio.on("connected", function(name) {});
   socketio.on("publish", function (data) { addMessage(data.value); });
   socketio.on("disconnect", function () {});
-
+  socketio.on("updateuser", function (data) {document.getElementById('usercount').innerHTML=data.value});
   // 2.イベントに絡ませる関数の定義
   function start(name) {
     socketio.emit("connected", name);
@@ -46,7 +46,8 @@
 
   // 3.開始処理
   var msgArea = document.getElementById("msg");
-  var myName = Math.floor(Math.random()*100) + "さん";
-  addMessage("貴方は" + myName + "として入室しました");
+  var myName = Math.floor(Math.random()*100000)
+  addMessage("貴方は" + myName + "さんとして入室しました");
   start(myName);
+  document.getElementById('userID').innerHTML = "募集ID:"+myName;
 </script>

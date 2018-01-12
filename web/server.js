@@ -16,7 +16,7 @@ var io = require("socket.io").listen(server);
 
 // ユーザ管理ハッシュ
 var userHash = {};
-
+var usercount=0;
 // 2.イベントの定義
 io.sockets.on("connection", function (socket) {
 
@@ -24,7 +24,9 @@ io.sockets.on("connection", function (socket) {
   socket.on("connected", function (name) {
     var msg = name + "が入室しました";
     userHash[socket.id] = name;
+    usercount=usercount+1;
     io.sockets.emit("publish", {value: msg});
+    io.sockets.emit("updateuser",{value: usercount});
   });
 
   // メッセージ送信カスタムイベント
@@ -42,8 +44,10 @@ io.sockets.on("connection", function (socket) {
   socket.on("disconnect", function () {
     if (userHash[socket.id]) {
       var msg = userHash[socket.id] + "が退出しました";
+      usercount=usercount-1;
       delete userHash[socket.id];
       io.sockets.emit("publish", {value: msg});
+      io.sockets.emit("updateuser",{value: usercount});
     }
   });
 });

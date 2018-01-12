@@ -23,12 +23,6 @@
     socketio.emit("connected", name);
   }
   //メッセージ送信
-  function publishMessage() {
-    var textInput = document.getElementById('msg_input');
-    var msg = "[" + myName + "] " + textInput.value;
-    socketio.emit("publish", {value: msg});
-    textInput.value = '';
-  }
   socketio.on('jump', function() {
    // location.replace('/Game');
    location.href = "/Game";
@@ -42,7 +36,7 @@
 
   // 3.開始処理
   var msgArea = document.getElementById("msg");
-  var myName = Math.floor(Math.random()*100) + "さん";
+  var myName = Math.floor(Math.random()*100000) + "さん";
   addMessage("貴方は" + myName + "として入室しました");
   start(myName);
 </script>

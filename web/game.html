@@ -8,15 +8,21 @@
     <center>
       <h3 id="cardcount">0</h3>
 
-    <button onClick="cardsubmit(card1);" style="width:30%;height:150px" id="card1" >1</button>
-    <button onClick="cardsubmit(card2);" style="width:30%;height:150px" id="card2">2</button>
-    <button onClick="cardsubmit(card3);" style="width:30%;height:150px" id="card3">3</button>
+    <button onClick="cardsubmit(card1);" style="width:30%;height:150px" id="card1" ></button>
+    <button onClick="cardsubmit(card2);" style="width:30%;height:150px" id="card2"></button>
+    <button onClick="cardsubmit(card3);" style="width:30%;height:150px" id="card3"></button>
     </center>
   </body>
 </html>
 <script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
   // 1.イベントとコールバックの定義
+  var cardkind=['1','2','3','4','5','6','7','8','9','10']
+  var cardlist=[]
+  var a = (new Array('10')).fill(1);
+  for (  var i = 0;  i < cardkind.length;  i++  ) {
+      cardlist=cardlist.concat(Array(10).fill(cardkind[i]));
+  }
   var socketio = io.connect('http://localhost:8080');
 
   socketio.on("connected", function(name) {});
@@ -30,7 +36,14 @@
   function cardsubmit(card){
     //console.log(card.id);
     document.getElementById('cardcount').innerHTML =Number(document.getElementById('cardcount').innerHTML)+Number(document.getElementById(card.id).textContent);
+    document.getElementById(card.id).innerHTML = cardlist[Math.floor(Math.random()*cardlist.length)];
   }
+  window.onload = function(){
+    document.getElementById('card1').textContent=cardlist[Math.floor(Math.random()*cardlist.length)];
+    document.getElementById('card2').textContent=cardlist[Math.floor(Math.random()*cardlist.length)];
+    document.getElementById('card3').textContent=cardlist[Math.floor(Math.random()*cardlist.length)];
+  }
+
   // 3.開始処理
   //var msgArea = document.getElementById("msg");
   //var myName = Math.floor(Math.random()*100000) ;

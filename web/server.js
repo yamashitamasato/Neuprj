@@ -17,6 +17,13 @@ var io = require("socket.io").listen(server);
 // ユーザ管理ハッシュ
 var userHash = {};
 var usercount=0;
+
+
+
+
+
+
+
 // 2.イベントの定義
 io.sockets.on("connection", function (socket) {
 

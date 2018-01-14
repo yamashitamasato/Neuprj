@@ -19,7 +19,15 @@ var userHash = {};
 var usercount=0;
 
 
-
+var cardkind=[['1','2','3','4','5','6','7','8','9'],['10'],['50','-1'],['-10'],['101']]
+var cardnumber=[3,6,2,4,5]
+var cardlist=[]
+var cardsum=0;
+for (  var i = 0;  i < cardkind.length;  i++  ) {
+  for (var j=0; j < cardkind[i].length;j++){
+    cardlist=cardlist.concat(Array(cardnumber[i]).fill(cardkind[i][j]));
+  }
+}
 
 
 
@@ -54,5 +62,13 @@ io.sockets.on("connection", function (socket) {
       io.sockets.emit("publish", {value: msg});
       io.sockets.emit("updateuser",{value: usercount});
     }
+  });
+  socket.on("submitcard",function(card){
+    if(card=='101'){
+        cardsum=Number(card);
+    }else{
+    cardsum=cardsum+Number(card);
+    }
+    io.sockets.emit("cardupdate",{value:cardsum});
   });
 });

@@ -34,20 +34,24 @@
   socketio.on("cardupdate",function(card){
     document.getElementById('cardsum').innerHTML=card.value;
   });
+  socketio.on("Gameover",function(){
+    window.alert('Gameover');
+  });
   // 2.イベントに絡ませる関数の定義
   function start(name) {
     socketio.emit("connected", name);
   }
   function cardsubmit(card){
-    //console.log(card.id);
     socketio.emit("submitcard",document.getElementById(card.id).textContent)
-    //document.getElementById('cardsum').innerHTML =Number(document.getElementById('cardcount').innerHTML)+Number(document.getElementById(card.id).textContent);
     document.getElementById(card.id).innerHTML = cardlist[Math.floor(Math.random()*cardlist.length)];
   }
   window.onload = function(){
-    document.getElementById('card1').textContent=cardlist[Math.floor(Math.random()*cardlist.length)];
-    document.getElementById('card2').textContent=cardlist[Math.floor(Math.random()*cardlist.length)];
-    document.getElementById('card3').textContent=cardlist[Math.floor(Math.random()*cardlist.length)];
+    cardidlist=['card1','card2','card3'];
+    for (var i=0;i<cardidlist.length;i++){
+      var cardposition=Math.floor(Math.random()*cardlist.length);
+      document.getElementById(cardidlist[i]).textContent=cardlist[cardposition];
+      cardlist.splice(cardposition,1);
+    }
   }
 
   // 3.開始処理

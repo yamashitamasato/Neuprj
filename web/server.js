@@ -65,10 +65,14 @@ io.sockets.on("connection", function (socket) {
   });
   socket.on("submitcard",function(card){
     if(card=='101'){
-        cardsum=Number(card);
+      cardsum=Number(card);
     }else{
-    cardsum=cardsum+Number(card);
+      cardsum=cardsum+Number(card);
     }
-    io.sockets.emit("cardupdate",{value:cardsum});
+    if(cardsum<=101){
+      io.sockets.emit("cardupdate",{value:cardsum});
+    }else{
+      io.sockets.emit("Gameover");
+    }
   });
 });
